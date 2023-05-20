@@ -61,6 +61,8 @@ def get_avto_ru_total_cars(webpage_url: str) -> str:
     else:
         avto_ru_total_cars = 'no_cars'
 
+    browser.quit()
+
     return avto_ru_total_cars
 
 
@@ -90,6 +92,8 @@ def get_avito_avto_total_cars(webpage_url: str) -> str:
     except Exception as e:
         avito_avto_total_cars = 'no_cars'
 
+    browser.quit()
+
     return avito_avto_total_cars
 
 
@@ -116,6 +120,8 @@ def get_drom_total_cars(webpage_url: str) -> str:
         drom_total_cars = ''.join(re.findall(r'\d+', resp_list[0]))
     else:
         drom_total_cars = 'no_cars'
+
+    browser.quit()
 
     return drom_total_cars
 
@@ -145,6 +151,8 @@ def get_sber_avto_total_cars(webpage_url: str) -> str:
     else:
         sber_avto_total_cars = 'no_cars'
 
+    browser.quit()
+
     return sber_avto_total_cars
 
 
@@ -160,10 +168,9 @@ sber_avto = 'https://sberauto.com/sankt-peterburg/cars?g' \
 avto_ru_total_cars = get_avto_ru_total_cars(webpage_url=avto_ru)
 avito_avto_total_cars = get_avito_avto_total_cars(webpage_url=avito_avto)
 drom_total_cars = get_drom_total_cars(webpage_url=drom)
-sber_avto_total_cars = get_avto_ru_total_cars(webpage_url=sber_avto)
+sber_avto_total_cars = get_sber_avto_total_cars(webpage_url=sber_avto)
 
 # send report to avtobot
 send_report(avto_ru=avto_ru_total_cars, avito_avto=avito_avto_total_cars,
             drom=drom_total_cars, sber_avto=sber_avto_total_cars)
 
-browser.quit()
