@@ -129,6 +129,7 @@ sber_avto_total_cars = get_avto_ru_total_cars(browser=browser,
                                               webpage_url=sber_avto)
 
 # send report to avtobot
-send_report(avto_ru=avto_ru_total_cars, )
+send_report(avto_ru=avto_ru_total_cars, avito_avto=avito_avto_total_cars,
+            drom=drom_total_cars, sber_avto=sber_avto_total_cars)
 
 browser.quit()
