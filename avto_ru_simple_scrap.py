@@ -15,6 +15,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
+def send_report(avto_ru: str):
+
+    AVTOBOT_TELEGRAM_TOKEN = os.environ.get("AVTOBOT_TELEGRAM_TOKEN")
+    avtobot = telegram.Bot(token=AVTOBOT_TELEGRAM_TOKEN)
+    avtobot.send_message(chat_id=158532925, text=f'avto_ru: {avto_ru_total_cars}')
+
 # spb, geo 0 km
 avito_avto = 'https://www.avito.ru/sankt-peterburg/avtomobili?cd=1&radius=0&s=104&searchRadius=0'
 avto_ru = 'https://auto.ru/sankt-peterburg/cars/all/'
@@ -46,9 +52,6 @@ if len(resp_list) != 0:
 else:
     avto_ru_total_cars = 'no cars'
 
-AVTOBOT_TELEGRAM_TOKEN = '5761838743:AAEkLBlQbeFU2Yd9mekcuDuXBijLa5_OIn0'
-avtobot = telegram.Bot(token=AVTOBOT_TELEGRAM_TOKEN)
-
-avtobot.send_message(chat_id=158532925, text=f'avto_ru: {avto_ru_total_cars}')
+send_report(avto_ru=avto_ru_total_cars)
 
 browser.quit()
