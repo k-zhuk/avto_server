@@ -28,7 +28,19 @@ def send_report(avto_ru: str, avito_avto: str,
     avtobot.send_message(chat_id=158532925, text=msg_text)
 
 
-def get_avto_ru_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
+def get_avto_ru_total_cars(webpage_url: str) -> str:
+    # add options to run in bg
+    options = webdriver.ChromeOptions()
+    options.add_argument('--enable-javascript')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--start-maximized')
+    options.add_argument("user-agent=userAgent=Mozilla/5.0"
+                         + "(iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 "
+                         + "(KHTML, like Gecko) CriOS/101.0.4951.44 Mobile/15E148 Safari/604.1")
+    options.add_argument('--headless=new')
+
+    # start browser with options
+    browser = webdriver.Chrome(options=options)
     browser.get(webpage_url)
 
     # captcha click, not images, just "I am not a robot"
@@ -52,8 +64,21 @@ def get_avto_ru_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
     return avto_ru_total_cars
 
 
-def get_avito_avto_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
+def get_avito_avto_total_cars(webpage_url: str) -> str:
+    # add options to run in bg
+    options = webdriver.ChromeOptions()
+    options.add_argument('--enable-javascript')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--start-maximized')
+    # options.add_argument("user-agent=userAgent=Mozilla/5.0"
+    #                      + "(iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 "
+    #                      + "(KHTML, like Gecko) CriOS/101.0.4951.44 Mobile/15E148 Safari/604.1")
+    options.add_argument('--headless=new')
+
+    # start browser with options
+    browser = webdriver.Chrome(options=options)
     browser.get(webpage_url)
+
     html_text = browser.page_source
 
     try:
@@ -68,7 +93,20 @@ def get_avito_avto_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
     return avito_avto_total_cars
 
 
-def get_drom_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
+def get_drom_total_cars(webpage_url: str) -> str:
+    # add options to run in bg
+    options = webdriver.ChromeOptions()
+    options.add_argument('--enable-javascript')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--start-maximized')
+    options.add_argument("user-agent=userAgent=Mozilla/5.0"
+                         + "(iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 "
+                         + "(KHTML, like Gecko) CriOS/101.0.4951.44 Mobile/15E148 Safari/604.1")
+    options.add_argument('--headless=new')
+
+    # start browser with options
+    browser = webdriver.Chrome(options=options)
+
     browser.get(webpage_url)
     html_text = browser.page_source
 
@@ -82,7 +120,20 @@ def get_drom_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
     return drom_total_cars
 
 
-def get_sber_avto_total_cars(browser: 'chromedriver', webpage_url: str) -> str:
+def get_sber_avto_total_cars(webpage_url: str) -> str:
+    # add options to run in bg
+    options = webdriver.ChromeOptions()
+    options.add_argument('--enable-javascript')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--start-maximized')
+    options.add_argument("user-agent=userAgent=Mozilla/5.0"
+                         + "(iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 "
+                         + "(KHTML, like Gecko) CriOS/101.0.4951.44 Mobile/15E148 Safari/604.1")
+    options.add_argument('--headless=new')
+
+    # start browser with options
+    browser = webdriver.Chrome(options=options)
+
     browser.get(webpage_url)
     html_text = browser.page_source
 
@@ -105,28 +156,11 @@ sber_avto = 'https://sberauto.com/sankt-peterburg/cars?g' \
             'eoDistance=0&rental_car=exclude_rental&isCreditSearchEnabled=false' \
             '&isWarrantySearchEnabled=false&isNoMileageInRussiaEnabled=false'
 
-# add options to run in bg
-options = webdriver.ChromeOptions()
-options.add_argument('--headless=new')
-options.add_argument('--enable-javascript')
-options.add_argument('--window-size=1920,1080')
-options.add_argument('--start-maximized')
-options.add_argument("user-agent=userAgent=Mozilla/5.0"
-                     + "(iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 "
-                     + "(KHTML, like Gecko) CriOS/101.0.4951.44 Mobile/15E148 Safari/604.1")
-
-# start browser with options
-browser = webdriver.Chrome(options=options)
-
 # get total cars from each resource
-avto_ru_total_cars = get_avto_ru_total_cars(browser=browser,
-                                            webpage_url=avto_ru)
-avito_avto_total_cars = get_avito_avto_total_cars(browser=browser,
-                                                  webpage_url=avito_avto)
-drom_total_cars = get_drom_total_cars(browser=browser,
-                                      webpage_url=drom)
-sber_avto_total_cars = get_avto_ru_total_cars(browser=browser,
-                                              webpage_url=sber_avto)
+avto_ru_total_cars = get_avto_ru_total_cars(webpage_url=avto_ru)
+avito_avto_total_cars = get_avito_avto_total_cars(webpage_url=avito_avto)
+drom_total_cars = get_drom_total_cars(webpage_url=drom)
+sber_avto_total_cars = get_avto_ru_total_cars(webpage_url=sber_avto)
 
 # send report to avtobot
 send_report(avto_ru=avto_ru_total_cars, avito_avto=avito_avto_total_cars,
