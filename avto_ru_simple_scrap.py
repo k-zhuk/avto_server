@@ -41,7 +41,14 @@ html_text = browser.page_source
 
 resp_list = re.findall(r'itemRadius.*Санкт\D*itemCount\D*\d{1,3}.{,10}\d{1,3}', html_text)
 
-avto_ru_total_cars = ''.join(re.findall(r'\d+', resp_list[0]))
-print('avto_ru: ', avto_ru_total_cars)
+if len(resp_list) != 0:
+    avto_ru_total_cars = ''.join(re.findall(r'\d+', resp_list[0]))
+else:
+    avto_ru_total_cars = 'no cars'
+
+AVTOBOT_TELEGRAM_TOKEN = '5761838743:AAEkLBlQbeFU2Yd9mekcuDuXBijLa5_OIn0'
+avtobot = telegram.Bot(token=AVTOBOT_TELEGRAM_TOKEN)
+
+avtobot.send_message(chat_id=158532925, text=f'avto_ru: {avto_ru_total_cars}')
 
 browser.quit()
