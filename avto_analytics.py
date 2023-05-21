@@ -168,9 +168,10 @@ def get_sber_avto_total_cars(webpage_url: str) -> str:
     browser = webdriver.Chrome(options=options)
 
     browser.get(webpage_url)
+    time.sleep(2)
     # browser.implicitly_wait(5)
-    element_present = expected_conditions.presence_of_element_located((By.XPATH, "//h5[@data-testid='totalAmount']"))
-    WebDriverWait(browser, 3, poll_frequency=3).until(element_present)
+    # element_present = expected_conditions.presence_of_element_located((By.XPATH, "//h5[@data-testid='totalAmount']"))
+    # WebDriverWait(browser, 3, poll_frequency=3).until(element_present)
 
     html_text = browser.page_source
 
