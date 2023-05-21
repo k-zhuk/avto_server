@@ -27,6 +27,31 @@ def send_report(avto_ru: str, avito_avto: str,
     msg_text = f'avto_ru: {avto_ru}\navito_avto: {avito_avto}'\
                f'\ndrom: {drom}\nsber_avto: {sber_avto}'
 
+    # add to csv file
+    list_keys = ['avito_avto', 'avto_ru', 'drom', 'sber_avto', 'unix_timestamp']
+    total_cars_dict = dict.fromkeys(list_keys, 0)
+
+    total_cars_dict['avito_avto'] = avito_avto
+    total_cars_dict['avto_ru'] = avto_ru
+    total_cars_dict['drom'] = drom
+    total_cars_dict['sber_avto'] = sber_avto
+    total_cars_dict['unix_timestamp'] = int(time.time())
+
+    # add index, only one row
+    save_filename = './avto_analytics_total_cars.csv'
+    df_results = pd.DataFrame(total_cars_dict,
+                              index=[0])
+
+    if not os.path.exists(f'{save_filename}'):
+        df_results.to_csv(f'{save_filename}',
+                          index=False,
+                          mode='w')
+    else:
+        df_results.to_csv(f'{save_filename}',
+                          index=False,
+                          header=None,
+                          mode='a')
+
     avtobot.send_message(chat_id=158532925, text=msg_text)
 
 
@@ -144,8 +169,8 @@ def get_sber_avto_total_cars(webpage_url: str) -> str:
 
     browser.get(webpage_url)
     # browser.implicitly_wait(5)
-    element_present = EC.presence_of_element_located((By.XPATH, "//h5[@data-testid='totalAmount'"))
-    WebDriverWait(driver, 3, poll_frequency=3).until(element_present)
+    element_present = expected_conditions.presence_of_element_located((By.XPATH, "//h5[@data-testid='totalAmount']"))
+    WebDriverWait(browser, 3, poll_frequency=3).until(element_present)
 
     html_text = browser.page_source
 
