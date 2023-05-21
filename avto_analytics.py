@@ -14,6 +14,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from dotenv import dotenv_values
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 
 
 def send_report(avto_ru: str, avito_avto: str,
@@ -141,6 +143,10 @@ def get_sber_avto_total_cars(webpage_url: str) -> str:
     browser = webdriver.Chrome(options=options)
 
     browser.get(webpage_url)
+    # browser.implicitly_wait(5)
+    element_present = EC.presence_of_element_located((By.XPATH, "//h5[@data-testid='totalAmount'"))
+    WebDriverWait(driver, 3, poll_frequency=3).until(element_present)
+
     html_text = browser.page_source
 
     response_no_space = re.sub(r'\s+', '', string=html_text)
