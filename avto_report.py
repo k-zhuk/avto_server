@@ -213,7 +213,6 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
                     alpha=alpha_fill,
                     color='red')
 
-    # ax.get_figure().set_tight_layout('tight')
     ax.legend(fontsize=18)
 
     # =================================
@@ -259,8 +258,6 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     ax.set_xlabel('Time', **label_config)
     ax.set_ylabel('Used cars', **label_config)
     ax.set_title(f'Used cars\np_value = {round(p_value, 4)}', **title_config)
-
-    # x_ticks = pd.concat([df_yesterday['time_of_day'].iloc[::24], df_yesterday['time_of_day'][-1:]])
 
     ax.set_xticks(ticks=x_ticks,
                   labels=x_ticks_labels,
@@ -320,8 +317,6 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     ax.set_ylabel('New cars', **label_config)
     ax.set_title(f'New cars\np_value = {round(p_value, 4)}', **title_config)
 
-    # x_ticks = pd.concat([df_yesterday['time_of_day'].iloc[::24], df_yesterday['time_of_day'][-1:]])
-
     ax.set_xticks(ticks=x_ticks,
                   labels=x_ticks_labels,
                   rotation=45)
@@ -379,8 +374,6 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     ax.set_xlabel('Time', **label_config)
     ax.set_ylabel('Company cars', **label_config)
     ax.set_title(f'Company cars\np_value = {round(p_value, 4)}', **title_config)
-
-    # x_ticks = pd.concat([df_yesterday['time_of_day'].iloc[::24], df_yesterday['time_of_day'][-1:]])
 
     ax.set_xticks(ticks=x_ticks,
                   labels=x_ticks_labels,
@@ -440,8 +433,6 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     ax.set_ylabel('Private cars', **label_config)
     ax.set_title(f'Private cars\np_value = {round(p_value, 4)}', **title_config)
 
-    # x_ticks = pd.concat([df_yesterday['time_of_day'].iloc[::24], df_yesterday['time_of_day'][-1:]])
-
     ax.set_xticks(ticks=x_ticks,
                   labels=x_ticks_labels,
                   rotation=45)
@@ -490,12 +481,13 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     # =========================
 
     fig.suptitle(f"\n{product_name.replace('v', 'u').upper()}\n", fontsize=88)
+    fig.canvas.draw()
     fig.tight_layout()
 
     avto_ru_doc = io.BytesIO()
     fig.savefig(avto_ru_doc, format='pdf')
     avto_ru_doc.seek(0)
-    avto_ru_doc.name = f"{product_name.replace('v', 'u').upper()}.jpg"
+    avto_ru_doc.name = f"{product_name.replace('v', 'u').upper()}.pdf"
 
     pdf_avto_ru = PdfReader(avto_ru_doc)
 
@@ -879,12 +871,13 @@ def get_avito_avto(df_result: 'DataFrame') -> 'pdf bytes':
     # =========================
 
     fig.suptitle(f'\n{product_name.upper()}\n', fontsize=88)
+    fig.canvas.draw()
     fig.tight_layout()
 
     avito_avto_doc = io.BytesIO()
     fig.savefig(avito_avto_doc, format='pdf')
     avito_avto_doc.seek(0)
-    avito_avto_doc.name = f'{product_name.upper()}.jpg'
+    avito_avto_doc.name = f'{product_name.upper()}.pdf'
 
     pdf_avito_avto = PdfReader(avito_avto_doc)
 
@@ -1160,8 +1153,6 @@ def get_drom(df_result: 'DataFrame') -> 'pdf bytes':
     ax.set_ylabel('Company cars', **label_config)
     ax.set_title(f'Company cars\np_value = {round(p_value, 4)}', **title_config)
 
-    # x_ticks = pd.concat([df_yesterday['time_of_day'].iloc[::24], df_yesterday['time_of_day'][-1:]])
-
     ax.set_xticks(ticks=x_ticks,
                   labels=x_ticks_labels,
                   rotation=45)
@@ -1268,12 +1259,13 @@ def get_drom(df_result: 'DataFrame') -> 'pdf bytes':
     # =========================
 
     fig.suptitle(f'\n{product_name.upper()}\n', fontsize=88)
+    fig.canvas.draw()
     fig.tight_layout()
 
     drom_doc = io.BytesIO()
     fig.savefig(drom_doc, format='pdf')
     drom_doc.seek(0)
-    drom_doc.name = f'{product_name.upper()}.jpg'
+    drom_doc.name = f'{product_name.upper()}.pdf'
 
     pdf_drom = PdfReader(drom_doc)
 
@@ -1541,12 +1533,13 @@ def get_sber_avto(df_result: 'DataFrame') -> 'pdf bytes':
 
     fig.suptitle(f'\n{product_name.upper()}\n',
                  fontsize=88)
+    fig.canvas.draw()
     fig.tight_layout()
 
     sber_avto_doc = io.BytesIO()
     fig.savefig(sber_avto_doc, format='pdf')
     sber_avto_doc.seek(0)
-    sber_avto_doc.name = f'{product_name.upper()}.jpg'
+    sber_avto_doc.name = f'{product_name.upper()}.pdf'
 
     pdf_sber_avto = PdfReader(sber_avto_doc)
 
@@ -1625,7 +1618,7 @@ def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
                 for j, artist in enumerate(container):
                     coords = artist.get_xy()
 
-                    # set image instead of
+                    # set image instead of text
                     if i == 1:
                         plt_img = plt.imread(fname=f'./icons/{product_names[j]}.png', format='png')
                         img_offset = OffsetImage(plt_img, zoom=0.3)
@@ -1671,6 +1664,7 @@ def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
     # ===========================================================================================================
 
     fig.suptitle('\nProducts comparison\n', fontsize=88)
+    fig.canvas.draw()
     fig.tight_layout()
 
     compare_doc = io.BytesIO()
