@@ -148,7 +148,9 @@ def get_avto_ru_results(urls: dict) -> dict:
     for key in dict_keys:
         browser.get(urls[key])
         html_text = browser.page_source
-        resp_list = re.findall(r'itemRadius.*Санкт\D*itemCount\D*\d{1,3}.{,10}\d{1,3}', html_text)
+        browser.add_cookie({"name": "gradius", "value": "0", 'sameSite': 'Lax'})
+        browser.get(urls[key])
+        resp_list = re.findall(r'SortTabs__count\D*\d{1,3}\D*\d{1,3}.{1,10}предло', html_text)
         if len(resp_list) != 0:
             result = int(''.join(re.findall(r'\d+', resp_list[0])))
         else:
