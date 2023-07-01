@@ -15,7 +15,7 @@ from PyPDF2 import PdfReader
 from dotenv import dotenv_values
 
 
-def get_query_result(query: str) -> list:
+def get_query_result(query: str, envs: dict) -> list:
     db_config = {
         'user': envs['MYSQL_USER'],
         'password': envs['MYSQL_PASSWORD'],
@@ -109,7 +109,7 @@ def fill_no_cars(arr: 'array') -> tuple:
     return new_cars_list, private_cars_list
 
 
-def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
+def get_avto_ru(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     # prepare data to PLOT
     before_yesterday_val = datetime.date(datetime.today()) - timedelta(days=2)
     yesterday_val = datetime.date(datetime.today()) - timedelta(days=1)
@@ -471,7 +471,7 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
 
     ax.set_aspect('equal')
 
-    plt_img = plt.imread(fname=f'./icons/{product_name}.png', format='png')
+    plt_img = plt.imread(fname=f'{envs["HOME_AVTOBOT"]}/icons/{product_name}.png', format='png')
     img_offset = OffsetImage(plt_img, zoom=1.2)
     img_annotation = AnnotationBbox(offsetbox=img_offset,
                                     xy=(0, 0),
@@ -494,7 +494,7 @@ def get_avto_ru(df_result: 'DataFrame') -> 'pdf bytes':
     return pdf_avto_ru
 
 
-def get_avito_avto(df_result: 'DataFrame') -> 'pdf bytes':
+def get_avito_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     # prepare data to PLOT
     before_yesterday_val = datetime.date(datetime.today()) - timedelta(days=2)
     yesterday_val = datetime.date(datetime.today()) - timedelta(days=1)
@@ -861,7 +861,7 @@ def get_avito_avto(df_result: 'DataFrame') -> 'pdf bytes':
 
     ax.set_aspect('equal')
 
-    plt_img = plt.imread(fname=f'./icons/{product_name}.png', format='png')
+    plt_img = plt.imread(fname=f'{envs["HOME_AVTOBOT"]}/icons/{product_name}.png', format='png')
     img_offset = OffsetImage(plt_img, zoom=1.2)
     img_annotation = AnnotationBbox(offsetbox=img_offset,
                                     xy=(0, 0),
@@ -884,7 +884,7 @@ def get_avito_avto(df_result: 'DataFrame') -> 'pdf bytes':
     return pdf_avito_avto
 
 
-def get_drom(df_result: 'DataFrame') -> 'pdf bytes':
+def get_drom(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     # prepare data to PLOT
     before_yesterday_val = datetime.date(datetime.today()) - timedelta(days=2)
     yesterday_val = datetime.date(datetime.today()) - timedelta(days=1)
@@ -1249,7 +1249,7 @@ def get_drom(df_result: 'DataFrame') -> 'pdf bytes':
 
     ax.set_aspect('equal')
 
-    plt_img = plt.imread(fname=f'./icons/{product_name}.png', format='png')
+    plt_img = plt.imread(fname=f'{envs["HOME_AVTOBOT"]}/icons/{product_name}.png', format='png')
     img_offset = OffsetImage(plt_img, zoom=1.2)
     img_annotation = AnnotationBbox(offsetbox=img_offset,
                                     xy=(0, 0),
@@ -1272,7 +1272,7 @@ def get_drom(df_result: 'DataFrame') -> 'pdf bytes':
     return pdf_drom
 
 
-def get_sber_avto(df_result: 'DataFrame') -> 'pdf bytes':
+def get_sber_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     # prepare data to PLOT
     before_yesterday_val = datetime.date(datetime.today()) - timedelta(days=2)
     yesterday_val = datetime.date(datetime.today()) - timedelta(days=1)
@@ -1522,7 +1522,7 @@ def get_sber_avto(df_result: 'DataFrame') -> 'pdf bytes':
 
     ax.set_aspect('equal')
 
-    plt_img = plt.imread(fname=f'./icons/{product_name}.png', format='png')
+    plt_img = plt.imread(fname=f'{envs["HOME_AVTOBOT"]}/icons/{product_name}.png', format='png')
     img_offset = OffsetImage(plt_img, zoom=1.2)
     img_annotation = AnnotationBbox(offsetbox=img_offset,
                                     xy=(0, 0),
@@ -1620,7 +1620,9 @@ def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
 
                     # set image instead of text
                     if i == 1:
-                        plt_img = plt.imread(fname=f'./icons/{product_names[j]}.png', format='png')
+                        plt_img = plt.imread(fname=f'{envs["HOME_AVTOBOT"]}/icons/{product_names[j]}.png',
+                                             format='png')
+
                         img_offset = OffsetImage(plt_img, zoom=0.3)
                         img_annotation = AnnotationBbox(offsetbox=img_offset,
                                                         xy=(coords[0], coords[1]),
@@ -1677,11 +1679,11 @@ def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
     return pdf_compare_doc
 
 
-def get_df_result() -> 'DataFrame':
-    with open('./sql_queries/last_day_query.txt', 'r') as file:
+def get_df_result(envs: dict) -> 'DataFrame':
+    with open(f'{envs["HOME_AVTOBOT"]}/sql_queries/last_day_query.txt', 'r') as file:
         last_day_query = file.read()
 
-    last_2_days_result = list(zip(*get_query_result(query=last_day_query)))
+    last_2_days_result = list(zip(*get_query_result(query=last_day_query, envs=envs)))
     result_headers = ['id', 'unix_timestamp',
                       'avto_ru_total', 'avto_ru_used', 'avto_ru_company',
                       'avito_avto_total', 'avito_avto_used', 'avito_avto_company',
@@ -1723,12 +1725,17 @@ report_io = io.BytesIO()
 report_pdf = PdfWriter()
 
 # get pdf pages
-df_result = get_df_result()
-pdf_compare_doc = get_products_comparision(df_result=df_result)
-pdf_avto_ru = get_avto_ru(df_result=df_result)
-pdf_avito_avto = get_avito_avto(df_result=df_result)
-pdf_drom = get_drom(df_result=df_result)
-pdf_sber_avto = get_sber_avto(df_result=df_result)
+df_result = get_df_result(envs=envs)
+pdf_compare_doc = get_products_comparision(df_result=df_result,
+                                           envs=envs)
+pdf_avto_ru = get_avto_ru(df_result=df_result,
+                          envs=envs)
+pdf_avito_avto = get_avito_avto(df_result=df_result,
+                                envs=envs)
+pdf_drom = get_drom(df_result=df_result,
+                    envs=envs)
+pdf_sber_avto = get_sber_avto(df_result=df_result,
+                              envs=envs)
 
 # add pages to final document
 report_pdf.add_page(pdf_compare_doc.pages[0])
@@ -1744,7 +1751,7 @@ report_io.seek(0)
 report_io.name = report_filename
 
 # additional backup
-with open(f'./report_backups/{report_filename}', 'wb') as file:
+with open(f'{envs["HOME_AVTOBOT"]}/report_backups/{report_filename}', 'wb') as file:
     file.write(report_io.getvalue())
 
 bot.send_document(chat_id=envs['AVTOBOT_CHAT_ID'],
