@@ -455,9 +455,7 @@ def get_avto_ru(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     pie_explode = (0.01, 0.01)
 
     rgb_blue_fill = (12 / 255, 120 / 255, 237 / 255, 0.2)
-    rgb_blue_edge = (12 / 255, 120 / 255, 237 / 255, 0.87)
     rgb_black_fill = (0, 0, 0, 0.2)
-    rgb_black_edge = (0, 0, 0, 0.87)
 
     ax.pie(x=pie_values,
            labels=pie_labels,
@@ -842,10 +840,7 @@ def get_avito_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     pie_values = [df_yesterday_mean[f'{product_name}_used'], df_yesterday_mean[f'{product_name}_new']]
     pie_explode = (0.01, 0.01)
 
-    rgb_blue_fill = (12 / 255, 120 / 255, 237 / 255, 0.2)
-    rgb_blue_edge = (12 / 255, 120 / 255, 237 / 255, 0.87)
     rgb_black_fill = (0, 0, 0, 0.2)
-    rgb_black_edge = (0, 0, 0, 0.87)
 
     ax.pie(x=pie_values,
            labels=pie_labels,
@@ -1228,10 +1223,7 @@ def get_drom(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     pie_values = [df_yesterday_mean[f'{product_name}_used'], df_yesterday_mean[f'{product_name}_new']]
     pie_explode = (0.01, 0.01)
 
-    rgb_blue_fill = (12 / 255, 120 / 255, 237 / 255, 0.2)
-    rgb_blue_edge = (12 / 255, 120 / 255, 237 / 255, 0.87)
     rgb_black_fill = (0, 0, 0, 0.4)
-    rgb_black_edge = (0, 0, 0, 0.87)
 
     ax.pie(x=pie_values,
            labels=pie_labels,
@@ -1499,11 +1491,6 @@ def get_sber_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     pie_values = [df_yesterday_mean[f'{product_name}_used'], df_yesterday_mean[f'{product_name}_new']]
     pie_explode = (0.01, 0.05)
 
-    rgb_blue_fill = (12 / 255, 120 / 255, 237 / 255, 0.2)
-    rgb_blue_edge = (12 / 255, 120 / 255, 237 / 255, 0.87)
-    rgb_black_fill = (0, 0, 0, 0.4)
-    rgb_black_edge = (0, 0, 0, 0.87)
-
     ax.pie(x=pie_values,
            labels=pie_labels,
            autopct='%1.1f%%',
@@ -1538,7 +1525,7 @@ def get_sber_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     return pdf_sber_avto
 
 
-def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
+def get_products_comparision(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     yesterday_val = datetime.date(datetime.today()) - timedelta(days=1)
 
     df_before_yesterday = df_result.query('datetime_of_day.dt.date < @yesterday_val')
@@ -1594,16 +1581,6 @@ def get_products_comparision(df_result: 'DataFrame') -> 'pdf bytes':
 
             ax.set_xlabel('')
             ax.set_title(f'\n\n{cohort.upper()} cars compare', fontsize=fontsize_title)
-
-            fill_alpha = 1
-
-            sber_avto_green = (33 / 255, 160 / 255, 56 / 255, fill_alpha)
-            drom_red = (219 / 255, 0 / 255, 27 / 255, fill_alpha)
-            avito_purple = (129 / 255, 63 / 255, 229 / 255, fill_alpha)
-            avto_ru_red = (255 / 255, 0 / 255, 0 / 255, fill_alpha)
-            avto_ru_blue = (12 / 255, 120 / 255, 237 / 255, fill_alpha)
-
-            gray_fill = (0, 0, 0, 0.1)
 
             labels_suffix = ['bfy', 'y']
             for i, container in enumerate(ax.containers):
