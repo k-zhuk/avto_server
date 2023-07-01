@@ -149,13 +149,11 @@ def get_avto_ru(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     alpha_edge_shadow = 0.2
 
     x_ticks_labels = pd.date_range(start=before_yesterday_val, end=yesterday_val, freq='5T')[:-1]
-    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'), x_ticks_labels))[::24] + list(
-        x_ticks_labels[-1:].strftime('%H:%M'))
+    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'),
+                              x_ticks_labels))[::24] + list(x_ticks_labels[-1:].strftime('%H:%M'))
 
     # create ticks and add last element for plot
-    x_ticks = np.arange(df_yesterday.shape[0])
-    x_ticks = x_ticks[::24]
-    x_ticks = np.insert(x_ticks, len(x_ticks), df_yesterday.shape[0])
+    x_ticks = np.arange(0, df_yesterday.shape[0], df_yesterday.shape[0] / len(x_ticks_labels))
 
     # =================================
     # Total cars
@@ -539,13 +537,11 @@ def get_avito_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     avito_green = (29 / 255, 222 / 255, 79 / 255)
 
     x_ticks_labels = pd.date_range(start=before_yesterday_val, end=yesterday_val, freq='5T')[:-1]
-    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'), x_ticks_labels))[::24] + list(
-        x_ticks_labels[-1:].strftime('%H:%M'))
+    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'),
+                              x_ticks_labels))[::24] + list(x_ticks_labels[-1:].strftime('%H:%M'))
 
     # create ticks and add last element for plot
-    x_ticks = np.arange(df_yesterday.shape[0])
-    x_ticks = x_ticks[::24]
-    x_ticks = np.insert(x_ticks, len(x_ticks), df_yesterday.shape[0])
+    x_ticks = np.arange(0, df_yesterday.shape[0], df_yesterday.shape[0] / len(x_ticks_labels))
 
     # =================================
     # Total cars
@@ -927,13 +923,11 @@ def get_drom(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     drom_black = (0, 0, 0)
 
     x_ticks_labels = pd.date_range(start=before_yesterday_val, end=yesterday_val, freq='5T')[:-1]
-    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'), x_ticks_labels))[::24] + list(
-        x_ticks_labels[-1:].strftime('%H:%M'))
+    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'),
+                              x_ticks_labels))[::24] + list(x_ticks_labels[-1:].strftime('%H:%M'))
 
     # create ticks and add last element for plot
-    x_ticks = np.arange(df_yesterday.shape[0])
-    x_ticks = x_ticks[::24]
-    x_ticks = np.insert(x_ticks, len(x_ticks), df_yesterday.shape[0])
+    x_ticks = np.arange(0, df_yesterday.shape[0], df_yesterday.shape[0] / len(x_ticks_labels))
 
     # =================================
     # Total cars
@@ -1315,13 +1309,11 @@ def get_sber_avto(df_result: 'DataFrame', envs: dict) -> 'pdf bytes':
     sber_avto_green = (33 / 255, 160 / 255, 56 / 255)
 
     x_ticks_labels = pd.date_range(start=before_yesterday_val, end=yesterday_val, freq='5T')[:-1]
-    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'), x_ticks_labels))[::24] + list(
-        x_ticks_labels[-1:].strftime('%H:%M'))
+    x_ticks_labels = list(map(lambda x: x.strftime('%H:%M'),
+                              x_ticks_labels))[::24] + list(x_ticks_labels[-1:].strftime('%H:%M'))
 
     # create ticks and add last element for plot
-    x_ticks = np.arange(df_yesterday.shape[0])
-    x_ticks = x_ticks[::24]
-    x_ticks = np.insert(x_ticks, len(x_ticks), df_yesterday.shape[0])
+    x_ticks = np.arange(0, df_yesterday.shape[0], df_yesterday.shape[0] / len(x_ticks_labels))
 
     # =================================
     # Total cars
