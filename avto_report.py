@@ -1723,5 +1723,5 @@ report_io.name = report_filename
 with open(f'{envs["HOME_AVTOBOT"]}/report_backups/{report_filename}', 'wb') as file:
     file.write(report_io.getvalue())
 
-bot.send_document(chat_id=envs['AVTOBOT_CHAT_ID'],
+bot.send_document(chat_id=envs['AVTOBOT_CHANNEL_ID'],
                   document=report_io)
