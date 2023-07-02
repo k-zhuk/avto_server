@@ -31,3 +31,4 @@ report_handler = CommandHandler(envs['HANDSEND_REPORT_COMMAND'],
                                 send_last_report)
 dispatcher.add_handler(report_handler)
 updater.start_polling()
+updater.idle()
