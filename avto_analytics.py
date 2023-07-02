@@ -90,31 +90,34 @@ def send_report(send_to: dict):
 
     try:
         cnx = connector.connect(**db_config)
+
+        with cnx.cursor() as cursor:
+            query_str = ("INSERT INTO avto_daily_stats "
+                         "(unix_timestamp, avto_ru_total, avto_ru_used, avto_ru_company, "
+                         "avito_avto_total, avito_avto_used, avito_avto_company, "
+                         "drom_total, drom_used, drom_company, "
+                         "sber_avto_total, sber_avto_used) "
+                         "VALUES(%(unix_timestamp)s, %(avto_ru_total)s, %(avto_ru_used)s, %(avto_ru_company)s, "
+                         "%(avito_avto_total)s, %(avito_avto_used)s, %(avito_avto_company)s, "
+                         "%(drom_total)s, %(drom_used)s, %(drom_company)s, "
+                         "%(sber_avto_total)s, %(sber_avto_used)s)")
+
+            # cars_dict - dict from CSV
+            cursor.execute(query_str, cars_dict)
+            cnx.commit()
+
+        cnx.close()
+
+        # send to Telegram
+        avtobot.send_message(chat_id=avtobot_chat_id, text=msg_text)
+
     except connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('access denied')
         else:
             print(err)
 
-    with cnx.cursor() as cursor:
-        query_str = ("INSERT INTO avto_daily_stats "
-                     "(unix_timestamp, avto_ru_total, avto_ru_used, avto_ru_company, "
-                     "avito_avto_total, avito_avto_used, avito_avto_company, "
-                     "drom_total, drom_used, drom_company, "
-                     "sber_avto_total, sber_avto_used) "
-                     "VALUES(%(unix_timestamp)s, %(avto_ru_total)s, %(avto_ru_used)s, %(avto_ru_company)s, "
-                     "%(avito_avto_total)s, %(avito_avto_used)s, %(avito_avto_company)s, "
-                     "%(drom_total)s, %(drom_used)s, %(drom_company)s, "
-                     "%(sber_avto_total)s, %(sber_avto_used)s)")
-
-        # cars_dict - dict from CSV
-        cursor.execute(query_str, cars_dict)
-        cnx.commit()
-
-    cnx.close()
-
-    # send to Telegram
-    avtobot.send_message(chat_id=avtobot_chat_id, text=msg_text)
+        avtobot.send_message(chat_id=avtobot_chat_id, text=f'MYSQL error\n\n{err}')
 
 
 def get_avto_ru_results(urls: dict) -> dict:
