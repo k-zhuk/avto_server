@@ -26,6 +26,12 @@ def get_query_result(query: str, envs: dict) -> list:
 
     try:
         cnx = connector.connect(**db_config)
+
+        with cnx.cursor() as cursor:
+            cursor.execute(query)
+            query_results = cursor.fetchall()
+
+        cnx.close()
     except connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('access denied')
@@ -33,12 +39,6 @@ def get_query_result(query: str, envs: dict) -> list:
             print(err)
 
         return [[-1]]
-
-    with cnx.cursor() as cursor:
-        cursor.execute(query)
-        query_results = cursor.fetchall()
-
-    cnx.close()
 
     return query_results
 
