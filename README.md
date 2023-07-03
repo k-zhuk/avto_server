@@ -27,3 +27,14 @@
 - **avto_handsend_report.py** - для ручной отправки отчета в телеграм канал при помощи кастомной команды бота. Запуск через крон (@reboot).
 
 ### Примеры из отчета
+![analytics_compare](https://github.com/k-zhuk/avto_server/blob/develop/images/compare_analytics.png)
+Для каждой из площадок показано сколько в среднем было объявлений вчера и позавчера. Снизу на оси Х показана разница в процентах (насколько изменилось среднее кол-во объявлений вчера по сравнению с позавчера.
+
+---
+
+![analytics_compare](https://github.com/k-zhuk/avto_server/blob/develop/images/used_new_example_2.png)
+Цветная кривая показывает данные за вчера (yesterday), а серая за позавчера (yesterday - 1). В легенде в круглых скобках показывается среднее число объявлений. В заголовке графика p_value показывает является ли статистически значимым различия в кол-ве объявлений вчера и позавчера. Точками на графике обозначаются NaN значения, которые заменены на среднее.
+
+---
+
+![analytics_compare](https://github.com/k-zhuk/avto_server/blob/develop/images/used_new_example.png)
