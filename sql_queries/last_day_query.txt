@@ -1,0 +1,62 @@
+SELECT
+    id,
+    UNIX_TIMESTAMP,
+    IF(
+        avto_ru_total = 'no_cars',
+        0,
+        CAST(avto_ru_total AS INTEGER)
+    ) AS avto_ru_total,
+    IF(
+        avto_ru_used = 'no_cars',
+        0,
+        CAST(avto_ru_used AS INTEGER)
+    ) AS avto_ru_used,
+    IF(
+        avto_ru_company = 'no_cars',
+        0,
+        CAST(avto_ru_company AS INTEGER)
+    ) AS avto_ru_company,
+    IF(
+        avito_avto_total = 'no_cars',
+        0,
+        CAST(avito_avto_total AS INTEGER)
+    ) AS avito_avto_total,
+    IF(
+        avito_avto_used = 'no_cars',
+        0,
+        CAST(avito_avto_used AS INTEGER)
+    ) AS avito_avto_used,
+    IF(
+        avito_avto_company = 'no_cars',
+        0,
+        CAST(avito_avto_company AS INTEGER)
+    ) AS avito_avto_company,
+    IF(
+        drom_total = 'no_cars',
+        0,
+        CAST(drom_total AS INTEGER)
+    ) AS drom_total,
+    IF(
+        drom_used = 'no_cars',
+        0,
+        CAST(drom_used AS INTEGER)
+    ) AS drom_used,
+    IF(
+        drom_company = 'no_cars',
+        0,
+        CAST(drom_company AS INTEGER)
+    ) AS drom_company,
+    IF(
+        sber_avto_total = 'no_cars',
+        0,
+        CAST(sber_avto_total AS INTEGER)
+    ) AS sber_avto_total,
+    IF(
+        sber_avto_used = 'no_cars',
+        0,
+        CAST(sber_avto_used AS INTEGER)
+    ) AS sber_avto_used
+FROM
+    avto_daily_stats
+WHERE
+    DATE(FROM_UNIXTIME(UNIX_TIMESTAMP)) BETWEEN DATE_SUB(CURDATE(), INTERVAL 2 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY)
