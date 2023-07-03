@@ -35,6 +35,3 @@
 ![analytics_compare](https://github.com/k-zhuk/avto_server/blob/develop/images/used_new_example_2.png)
 Цветная кривая показывает данные за вчера (yesterday), а серая за позавчера (yesterday - 1). В легенде в круглых скобках показывается среднее число объявлений. В заголовке графика p_value показывает является ли статистически значимым различия в кол-ве объявлений вчера и позавчера. Точками на графике обозначаются NaN значения, которые заменены на среднее.
 
----
-
-![analytics_compare](https://github.com/k-zhuk/avto_server/blob/develop/images/used_new_example.png)
